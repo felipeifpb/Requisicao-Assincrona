@@ -32,14 +32,14 @@ function loadCepInfo(cep) {
   fetch(url)
     .then(response => response.json())
     .then(cepInfo => {
-      if (cepInfo.erro) {
-        cleanAddressFields();
+      if (cepInfo.erro || !cepInfo.logradouro) { // Verifica se a API retornou erro
+        showCepError();
       } else {
         updateAddressFields(cepInfo);
       }
     })
     .catch(() => {
-      showCepError();
+      showCepError(); // Mostra erro caso a requisição falhe
     })
     .finally(() => {
       toggleLoading(false);
